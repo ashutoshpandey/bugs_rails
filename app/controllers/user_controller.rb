@@ -1,213 +1,204 @@
-<?php
+class UserController < ActionController.Base
 
-class UserController extends BaseController {
+    before_filter :initialize
 
-    function __construct(){
-        View::share('root', URL::to('/'));
-        View::share('name', Session::get('name'));
-    }
+    def initialize
+        @root = '/'
+    end
 
-    function userSection(){
+    def userSection()
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return Redirect::to('/');
+        userId = session[:userId]
+        if !userId
+            redirect_to '/'
+        end
 
-        $runningProjects = Project::where('status', '=', 'active')->count();
-        $closedProjects = Project::where('status', '=', 'closed')->count();
-        $currentBugs = Bug::where('status', '=', 'active')->count();
-        $fixedBugs = Bug::where('status', '=', 'fixed')->count();
-        $unresolvedBugs = Bug::where('status', '=', 'unresolved')->count();
+        @runningProjects = Project.where('status = ?', 'active').count
+        @closedProjects = Project.where('status = ?', 'closed').count
+        @currentBugs = Bug.where('status = ?', 'active').count
+        @fixedBugs = Bug.where('status = ?', 'fixed').count
+        @unresolvedBugs = Bug.where('status = ?', 'unresolved').count
 
-        $userBugs = BugUser::where('user_id', '=', $userId)->where('status', '=', 'active')->get();
+        @userBugs = BugUser.where('user_id = ? and status = ?', userId, 'active')
+    end
 
-        return View::make('users.user-section')
-                ->with('runningProjects', $runningProjects)
-                ->with('closedProjects', $closedProjects)
-                ->with('currentBugs', $currentBugs)
-                ->with('fixedBugs', $fixedBugs)
-                ->with('unresolvedBugs', $unresolvedBugs)
-                ->with('userBugs', $userBugs);
-    }
+    def createUser()
 
-    function createUser(){
+        userId = session[:userId]
+        if !userId
+            redirect_to '/'
+        end
+    end
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return Redirect::to('/');
+    def saveUser()
 
-        return View::make('users.create');
-    }
+        userId = session[:userId]
+        if !userId
+            render :json => {:message => 'not logged'}
+        end
 
-    function saveUser(){
+        email = params[:email]
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return 'not logged';
+        user = User.where('email = ?', email).first
 
-        $email = Input::get('email');
+        if user
+            render :json => {:message => 'Duplicate email'}
+        else
+            user = User.new
 
-        $user = User::where('email', '=', $email)->first();
+            user.email = email
+            user.name = params[:name]
+            user.password = params[:password]
+            user.user_type = params[:user_type]
+            user.status = 'active'
 
-        if(isset($user)){
-            echo 'Duplicate email';
-        }
-        else{
-            $user = new User();
+            user.save()
 
-            $user->email = $email;
-            $user->name = Input::get('name');
-            $user->password = Input::get('password');
-            $user->user_type = Input::get('user_type');
-            $user->status = 'active';
+            render :json => {:message => 'User created successfully'}
+        end
+    end
 
-            $user->save();
+    def profile()
 
-            echo 'User created successfully';
-        }
-    }
+        userId = session[:userId]
+        if !userId
+            redirect_to '/'
+        end
 
-    function profile(){
+        userId = Session.get('userId')
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return Redirect::to('/');
+        if userId
+            @user = User.find(userId)
 
-        $userId = Session::get('userId');
+            if user
 
-        if(isset($userId)){
-            $user = User::find($userId);
-
-            if(isset($user)){
-
-                return View::make('users.profile')->with('user', $user);
-            }
             else
-                return Redirect::to('/');
-        }
+                redirect_to '/'
+            end
         else
-            return Redirect::to('/');
-    }
+            redirect_to '/'
+        end
+    end
 
-    function updateProfile(){
+    def updateProfile()
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return 'not logged';
+        userId = session[:userId]
+        if !userId
+            render :json => {:message => 'not logged'}
+        end
 
-        $userId = Session::get('userId');
+        user = User.find(userId)
 
-        $user = User::find($userId);
+        if user
+            email = params[:email]
 
-        if(isset($user)){
+            userByEmail = User.where('email = ?', email).first
 
-            $email = Input::get('email');
-
-            $userByEmail = User::where('email', '=', $email)->first();
-
-            if(isset($userByEmail) && $userByEmail->id != $user->id)
-                echo 'Email already taken';
-            else{
-                $user->id = $userId;
-                $user->email = $email;
-                $user->name = Input::get('name');
-                $user->password = Input::get('password');
-                $user->user_type = Input::get('user_type');
-
-                $user->save();
-
-                echo 'Profile updated successfully';
-            }
-        }
-        else
-            echo 'Invalid user';
-    }
-
-    function editUser($userId){
-
-        if(!isset($userId))
-            return Redirect::to('/');
-
-        if(isset($userId)){
-            $user = User::find($userId);
-
-            Session::put('current_edit_user', $userId);
-
-            if(isset($user)){
-
-                return View::make('users.edit')->with('user', $user);
-            }
+            if userByEmail and userByEmail.id != user.id
+                render :json => {:message => 'Email already taken'}
             else
-                return Redirect::to('/');
-        }
+                user.id = userId
+                user.email = email
+                user.name = params[:name]
+                user.password = params[:password]
+                user.user_type = params[:user_type]
+
+                user.save()
+
+                render :json => {:message => 'Profile updated successfully'}
+            end
         else
-            return Redirect::to('/');
-    }
+            render :json => {:message => 'Invalid user'}
+        end
+    end
 
-    function updateUser(){
+    def editUser(userId)
 
-        $userId = Session::get('current_edit_user');
-        if(!isset($userId))
-            return 'invalid';
+        if !userId
+            redirect_to '/'
+        end
 
-        $user = User::find($userId);
+        if userId
+            @user = User.find(userId)
 
-        if(isset($user)){
+            session[:current_edit_user] = userId
 
-            $user->name = Input::get('name');
-            $user->password = Input::get('password');
-            $user->user_type = Input::get('user_type');
+            if user
 
-            $user->save();
-
-            echo 'Profile updated successfully';
-        }
-        else
-            echo 'Invalid user';
-    }
-
-    function listUsers(){
-
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return Redirect::to('/');
-
-        return View::make('users.list');
-    }
-
-    function removeUser($userId){
-
-        if(isset($userId)) {
-
-            $user = User::find($userId);
-
-            if(isset($user)){
-                $user->status = 'removed';
-
-                $user->save();
-
-                echo 'done';
-            }
             else
-                echo 'invalid';
-        }
+                redirect_to '/'
+            end
         else
-            echo 'invalid';
-    }
+            redirect_to '/'
+        end
+    end
 
-    /************** json methods ***************/
+    def updateUser()
 
-    function dataListUsers(){
+        userId = session[:current_edit_user]
+        if !userId
+            render :json => {:message => 'invalid'}
+        end
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return json_encode(array('message' => 'not logged'));
+        user = User.find(userId)
 
-        $users = User::where('status', '=', 'active')->get();
+        if user
+            user.name = params[:name]
+            user.password = params[:password]
+            user.user_type = params[:user_type]
 
-        if(isset($users))
-            return json_encode(array('found' => true, 'users' => $users->toArray(), 'message' => 'logged'));
+            user.save()
+
+            render :json => {:message => 'Profile updated successfully'}
+        
         else
-            return json_encode(array('found' => true, 'message' => 'logged'));
-    }
-}
+            render :json => {:message => 'Invalid user'}
+        end
+    end
+
+    def listUsers()
+
+        userId = session[:userId]
+        if !userId
+            render :json => {:message => 'not logged'}
+        end
+    end
+
+    def removeUser(userId)
+
+        if userId
+
+            user = User.find(userId)
+
+            if user
+                user.status = 'removed'
+
+                user.save()
+
+                render :json => {:message => 'done'}
+            else
+                render :json => {:message => 'invalid'}
+            end
+        
+        else
+            render :json => {:message => 'invalid'}
+        end
+    end
+    #************** json methods ***************/
+
+    def dataListUsers()
+
+        userId = session[:userId]
+        if !userId
+            render :json => {:message => 'not logged'}
+        end
+
+        users = User.where('status = ?', 'active').get()
+
+        if users
+            render :json => {:found => true, :users => users, :message => 'logged'}
+        else
+            render :json => {:found => true, :message => 'logged'}
+        end
+    end
+end

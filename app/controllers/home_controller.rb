@@ -1,14 +1,12 @@
-<?php
+class HomeController < ActionController::Base
 
-class HomeController extends BaseController {
+	before_filter :initialize
 
-    function __construct(){
-        View::share('root', URL::to('/'));
-    }
+	def initialize
+		@root = '/'
+	end
 
-	public function home()
-	{
-		return View::make('home');
-	}
+	def home()
+	end
 
-}
+end

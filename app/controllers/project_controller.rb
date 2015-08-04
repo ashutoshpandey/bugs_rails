@@ -1,138 +1,143 @@
-<?php
+class ProjectController < ActionController::Base
 
-class ProjectController extends BaseController {
+    before_filter :initialize
 
-    function __construct(){
-        View::share('root', URL::to('/'));
-        View::share('name', Session::get('name'));
-    }
+    def initialize
+        @root = '/'
+    end
 
-    function createProject(){
+    def createProject()
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return Redirect::to('/');
+        userId = Session::get('userId')
+        if !userId
+            redirect_to '/'
+        end
+    end
 
-        return View::make('projects.create');
-    }
+    def saveProject()
 
-    function saveProject(){
+        userId = Session::get('userId')
+        if !userId
+            render :json => {:message => 'not logged'}
+        end    
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return "not logged";
+        name = Input::get('name')
+        project = Project::where('name', '=', name).where('status', '=', 'active').first()
 
-        $name = Input::get('name');
-        $project = Project::where('name', '=', $name)->where('status', '=', 'active')->first();
+        if project
+            render :json => {:message => 'duplicate'}
+        else 
+            project = new Project()
 
-        if(isset($project))
-            return "duplicate";
-        else {
-            $project = new Project();
+            project.name = name
+            project.description = Input::get('description')
+            project.status = 'active'
+            project.created_by = Session::get('userId')
 
-            $project->name = $name;
-            $project->description = Input::get('description');
-            $project->status = 'active';
-            $project->created_by = Session::get('userId');
+            project.save()
 
-            $project->save();
+            render :json => {:message => 'done'}
+        end
+    end
 
-            echo 'done';
-        }
-    }
+    def editProject(id)
 
-    function editProject($id){
+        userId = session[:userId]
+        if !userId
+            redirect_to '/'
+        end
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return Redirect::to('/');
+        @project = Project::find(id)
 
-        $project = Project::find($id);
+        session[:currentProjectId] = id
+    end
 
-        Session::put('currentProjectId', $id);
+    def updateProject()
 
-        return View::make('projects.edit')->with('project', $project);
-    }
+        userId = session[:userId]
+        if !userId
+            render :json => {:message => 'not logged'}
+        end
 
-    function updateProject(){
+        id = session[:currentProjectId]
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return "not logged";
+        project = Project.find(id)
 
-        $id = Session::get('currentProjectId');
+        if project
 
-        $project = Project::find($id);
+            name = Input::get('name')
+            description = Input::get('description')
+            status = Input::get('status')
 
-        if($project){
+            if name
+                project.name = Input::get('name')
+            end     
 
-            $name = Input::get('name');
-            $description = Input::get('description');
-            $status = Input::get('status');
+            if description
+                project.description = Input::get('description')
+            end
 
-            if(isset($name))
-                $project->name = Input::get('name');
+            if(isset(status))
+                project.status = Input::get('status')
+            end
 
-            if(isset($description))
-                $project->description = Input::get('description');
+            project.save()
 
-            if(isset($status))
-                $project->status = Input::get('status');
-
-            $project->save();
-
-            echo 'done';
-        }
+            render :json => {:message => 'done'}
+        
         else
-            echo 'invalid';
-    }
+            render :json => {:message => 'invalid'}
+        end
+    end
 
-    function removeProject($id){
+    def removeProject(id)
 
-        if(isset($id)) {
+        if id
 
-            $project = Project::find($id);
+            project = Project.find(id)
 
-            if(isset($project)){
-                $project->status = 'removed';
+            if project
+                project.status = 'removed'
 
-                $project->save();
+                project.save()
 
-                Bug::where('project_id', '=', $id)->update(array('status' => 'removed'));
+                Bug::where('project_id', '=', id).update(array('status' => 'removed'))
 
-                echo 'done';
-            }
+                render :json => {:message => 'done'}
+            
             else
-                echo 'invalid';
-        }
+                render :json => {:message => 'invalid'}
+            end
+        
         else
-            echo 'invalid';
-    }
+            render :json => {:message => 'invalid'}
+        end
+    end
 
-    function listProjects(){
+    def listProjects()
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return Redirect::to('/');
+        userId = Session::get('userId')
+        if !userId
+            redirect_to '/'
+        end
 
-        $projects = Project::where('status','=','active')->get();
+        @projects = Project::where('status','=','active').get()
+    end
 
-        return View::make('projects.list')->with('projects', $projects);
-    }
+    #***************** json methods *****************/
+    def dataListProjects()
 
-    /***************** json methods *****************/
-    function dataListProjects(){
+        userId = Session::get('userId')
+        if !userId
+            render :json => {:message => 'not logged'}
+        end
 
-        $userId = Session::get('userId');
-        if(!isset($userId))
-            return json_encode(array('message' => 'not logged'));
+        projects = Project::where('status','=','active').get()
 
-        $projects = Project::where('status','=','active')->get();
-
-        if($projects && count($projects)>0)
-            return json_encode(array('found' => true, 'projects' => $projects->toArray(), 'message' => 'logged'));
+        if projects and count(projects)>0
+            render :json => {:found => true, :projects => projects, :message => 'logged'}
         else
-            return json_encode(array('found' => false, 'message' => 'logged'));
-    }
-
-}
+            render :json => {:found => false}
+        end
+    end
+end

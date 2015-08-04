@@ -99,7 +99,7 @@ class BugController < ActionController::Base
             redirect_to '/'
         end
 
-        @bug = Bug::find(id)
+        @bug = Bug.find(id)
     end
 
     def updateBug()

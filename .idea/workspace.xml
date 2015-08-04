@@ -25,25 +25,52 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="bug_controller.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bug_controller.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/bug_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6981982">
-              <caret line="334" column="3" selection-start-line="334" selection-start-column="3" selection-end-line="334" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="101" column="19" selection-start-line="101" selection-start-column="19" selection-end-line="101" selection-end-column="19" />
               <folding>
                 <element signature="e#81#154#0" expanded="false" />
-                <element signature="e#160#430#0" expanded="false" />
-                <element signature="e#436#2035#0" expanded="false" />
-                <element signature="e#2041#2196#0" expanded="false" />
-                <element signature="e#2202#2955#0" expanded="false" />
-                <element signature="e#2961#3552#0" expanded="false" />
-                <element signature="e#3558#3805#0" expanded="false" />
-                <element signature="e#3811#4961#0" expanded="false" />
-                <element signature="e#4967#5649#0" expanded="false" />
-                <element signature="e#5655#5971#0" expanded="false" />
-                <element signature="e#6049#6720#0" expanded="false" />
-                <element signature="e#6731#7349#0" expanded="false" />
+                <element signature="e#2201#2954#0" expanded="false" />
+                <element signature="e#2960#3551#0" expanded="false" />
+                <element signature="e#3557#3804#0" expanded="false" />
+                <element signature="e#3810#4960#0" expanded="false" />
+                <element signature="e#4966#5648#0" expanded="false" />
+                <element signature="e#5654#5970#0" expanded="false" />
+                <element signature="e#6048#6719#0" expanded="false" />
+                <element signature="e#6730#7348#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home_controller.rb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/home_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="project_controller.rb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/project_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.5">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_controller.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/user_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7877358">
+              <caret line="201" column="11" selection-start-line="201" selection-start-column="11" selection-end-line="201" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -69,7 +96,10 @@
         <option value="$PROJECT_DIR$/db/migrate/20150730063754_bugs.rb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/authentication_controller.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/home_controller.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/project_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/bug_controller.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/user_controller.rb" />
       </list>
     </option>
   </component>
@@ -497,17 +527,14 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#81#154#0" expanded="false" />
-            <element signature="e#160#430#0" expanded="false" />
-            <element signature="e#436#2035#0" expanded="false" />
-            <element signature="e#2041#2196#0" expanded="false" />
-            <element signature="e#2202#2955#0" expanded="false" />
-            <element signature="e#2961#3552#0" expanded="false" />
-            <element signature="e#3558#3805#0" expanded="false" />
-            <element signature="e#3811#4961#0" expanded="false" />
-            <element signature="e#4967#5649#0" expanded="false" />
-            <element signature="e#5655#5971#0" expanded="false" />
-            <element signature="e#6049#6720#0" expanded="false" />
-            <element signature="e#6731#7349#0" expanded="false" />
+            <element signature="e#2201#2954#0" expanded="false" />
+            <element signature="e#2960#3551#0" expanded="false" />
+            <element signature="e#3557#3804#0" expanded="false" />
+            <element signature="e#3810#4960#0" expanded="false" />
+            <element signature="e#4966#5648#0" expanded="false" />
+            <element signature="e#5654#5970#0" expanded="false" />
+            <element signature="e#6048#6719#0" expanded="false" />
+            <element signature="e#6730#7348#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -526,17 +553,14 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#81#154#0" expanded="false" />
-            <element signature="e#160#430#0" expanded="false" />
-            <element signature="e#436#2035#0" expanded="false" />
-            <element signature="e#2041#2196#0" expanded="false" />
-            <element signature="e#2202#2955#0" expanded="false" />
-            <element signature="e#2961#3552#0" expanded="false" />
-            <element signature="e#3558#3805#0" expanded="false" />
-            <element signature="e#3811#4961#0" expanded="false" />
-            <element signature="e#4967#5649#0" expanded="false" />
-            <element signature="e#5655#5971#0" expanded="false" />
-            <element signature="e#6049#6720#0" expanded="false" />
-            <element signature="e#6731#7349#0" expanded="false" />
+            <element signature="e#2201#2954#0" expanded="false" />
+            <element signature="e#2960#3551#0" expanded="false" />
+            <element signature="e#3557#3804#0" expanded="false" />
+            <element signature="e#3810#4960#0" expanded="false" />
+            <element signature="e#4966#5648#0" expanded="false" />
+            <element signature="e#5654#5970#0" expanded="false" />
+            <element signature="e#6048#6719#0" expanded="false" />
+            <element signature="e#6730#7348#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -652,24 +676,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/home_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/project_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.5">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/bug_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6981982">
-          <caret line="334" column="3" selection-start-line="334" selection-start-column="3" selection-end-line="334" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="19" selection-start-line="101" selection-start-column="19" selection-end-line="101" selection-end-column="19" />
           <folding>
             <element signature="e#81#154#0" expanded="false" />
-            <element signature="e#160#430#0" expanded="false" />
-            <element signature="e#436#2035#0" expanded="false" />
-            <element signature="e#2041#2196#0" expanded="false" />
-            <element signature="e#2202#2955#0" expanded="false" />
-            <element signature="e#2961#3552#0" expanded="false" />
-            <element signature="e#3558#3805#0" expanded="false" />
-            <element signature="e#3811#4961#0" expanded="false" />
-            <element signature="e#4967#5649#0" expanded="false" />
-            <element signature="e#5655#5971#0" expanded="false" />
-            <element signature="e#6049#6720#0" expanded="false" />
-            <element signature="e#6731#7349#0" expanded="false" />
+            <element signature="e#2201#2954#0" expanded="false" />
+            <element signature="e#2960#3551#0" expanded="false" />
+            <element signature="e#3557#3804#0" expanded="false" />
+            <element signature="e#3810#4960#0" expanded="false" />
+            <element signature="e#4966#5648#0" expanded="false" />
+            <element signature="e#5654#5970#0" expanded="false" />
+            <element signature="e#6048#6719#0" expanded="false" />
+            <element signature="e#6730#7348#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/user_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7877358">
+          <caret line="201" column="11" selection-start-line="201" selection-start-column="11" selection-end-line="201" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
