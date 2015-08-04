@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   post '/is-valid-user' => 'authentication#isValiduser'
 
-  get '/user-section' => 'user#userSection'
+  get '/user-section' => 'user#user_section'
   get '/create-user' => 'user#createuser'
   post '/save-user' => 'user#saveuser'
   get '/edit-user/:id' => 'user#edituser'

@@ -6,7 +6,7 @@ class UserController < ActionController.Base
         @root = '/'
     end
 
-    def userSection()
+    def user_section()
 
         userId = session[:userId]
         if !userId

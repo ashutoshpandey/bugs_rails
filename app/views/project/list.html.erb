@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>
+        Administrator Section
+    </title>
+
+      <!--<%= stylesheet_link_tag "theme/transdmin.css" %>-->
+      <!--<%= stylesheet_link_tag "jquery.dataTables.css" %>-->
+      <!--<%= stylesheet_link_tag "common.css" %>-->
+      <!--<%= stylesheet_link_tag "projects/list.css" %>-->
+
+      <!--<%= javascript_include_tag "jquery-1.10.2.js" %>-->
+      <!--<%= javascript_include_tag "jquery.validate.min.js" %>-->
+      <!--<%= javascript_include_tag "jquery.dataTables.min.js" %>-->
+      <!--<%= javascript_include_tag "common.js" %>-->
+      <!--<%= javascript_include_tag "projects/list.js" %>-->
+
+  <%= stylesheet_link_tag "application" %>
+
+  <%= javascript_include_tag "application" %>
+</head>
+<body>
+<div>
+
+    <div id="wrapper" class="main-container">
+
+        <%= render 'includes/header' %>
+
+        <div class="header">
+            <div>
+                <a href="{{$root}}/create-project">Create project</a>
+            </div>
+
+            <br/>
+            <h1 class="form-header">Project list</h1>
+            <br/>
+        </div>
+
+        <div id="table-data"></div>
+    </div>
+
+</div>
+
+<%= render 'includes/footer' %>
+</body>
+</html>

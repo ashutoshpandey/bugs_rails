@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>
+        Administrator Section
+    </title>
+
+  <!--<%= stylesheet_link_tag "common.css" %>-->
+  <!--<%= stylesheet_link_tag "theme/transdmin.css" %>-->
+
+  <!--<%= javascript_include_tag "jquery-1.10.2.js" %>-->
+  <!--<%= javascript_include_tag "jquery.validate.min.js" %>-->
+  <!--<%= javascript_include_tag "common.js" %>-->
+
+      <%= stylesheet_link_tag "application" %>
+
+      <%= javascript_include_tag "application" %>
+
+</head>
+<body>
+<div>
+
+    <div id="wrapper" class="ys-adminform">
+
+        <%= render 'includes/header_logo' %>
+
+        <form id="form-login" class="admin-section-form frm">
+
+            <div class="header">
+                <br/>
+
+                <h1>Login</h1>
+                <br/>
+            </div>
+
+            <div class="content">
+
+                <div class="form-row">
+                    <input name="email" class="input" placeholder="Email" type="text"/>
+
+                    <div class="user-icon"></div>
+                </div>
+                <div class="form-row">
+                    <input name="password" class="input password" placeholder="Password" type="password"/>
+
+                    <div class="pass-icon"></div>
+                </div>
+            </div>
+
+            <div class="footerlogin">
+                <input class="button" name="btn-login" value="Authenticate" type="button"/>
+
+                <div class="message" style="font-weight: bold; padding-top:16px;">&nbsp;</div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<%= render 'includes/footer' %>
+</body>
+</html>
