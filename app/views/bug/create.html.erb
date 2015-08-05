@@ -6,15 +6,6 @@
         Administrator Section
     </title>
 
-      <!--<%= stylesheet_link_tag "common.css" %>-->
-      <!--<%= stylesheet_link_tag "theme/transdmin.css" %>-->
-      <!--<%= stylesheet_link_tag "bugs/create.css" %>-->
-
-      <!--<%= javascript_include_tag "jquery-1.10.2.js" %>-->
-      <!--<%= javascript_include_tag "jquery.validate.min.js" %>-->
-      <!--<%= javascript_include_tag "common.js" %>-->
-      <!--<%= javascript_include_tag "bugs/create.js" %>-->
-
   <%= stylesheet_link_tag "application" %>
 
   <%= javascript_include_tag "application" %>
@@ -27,11 +18,11 @@
 
         <%= render 'includes/header' %>
 
-        <form id="form-bug" method="post" action="{{$root}}/save-bug" target="ifr" name="ifr" enctype="multipart/form-data">
+        <form id="form-bug" method="post" action="<%=@root%>/save-bug" target="ifr" name="ifr" enctype="multipart/form-data">
 
             <div class="header">
                 <div>
-                    <a href="{{$root}}/list-bugs/{{$projectId}}">View bugs</a> <br/>
+                    <a href="<%=@root%>/list-bugs/<%=@projectId%>">View bugs</a> <br/>
                 </div>
 
                 <br/>

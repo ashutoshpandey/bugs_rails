@@ -6,16 +6,6 @@
         Administrator Section
     </title>
 
-      <!--<%= stylesheet_link_tag "jquery.dataTables.css" %>-->
-      <!--<%= stylesheet_link_tag "common.css" %>-->
-      <!--<%= stylesheet_link_tag "theme/transdmin.css" %>-->
-      <!--<%= stylesheet_link_tag "bugs/detail.css" %>-->
-
-      <!--<%= javascript_include_tag "jquery-1.10.2.js" %>-->
-      <!--<%= javascript_include_tag "jquery.validate.min.js" %>-->
-      <!--<%= javascript_include_tag "common.js" %>-->
-      <!--<%= javascript_include_tag "bugs/detail.js" %>-->
-
   <%= stylesheet_link_tag "application" %>
 
   <%= javascript_include_tag "application" %>
@@ -30,54 +20,54 @@
 
         <div class="header">
             <div class="form-row">
-                <a href="<%=root%>/list-bugs/{{$project->id}}">Back</a>
+                <a href="<%=@root%>/list-bugs/<%=@project.id%>">Back</a>
                 <br/>
             </div>
             <br/>
 
             <div class="form-row">
-                Project: <b>{{$project->name}}</b><br/>
+                Project: <b><%=@project.name%></b><br/>
             </div>
 
             <div class="form-row">
-                Posted by : {{$bug->user->name}}
+                Posted by : <%=@bug.user.name%>
             </div>
             <div class="form-row">
-                Level : <span class="{{strtolower($bug->severity)}}">{{$bug->severity}}</span>
-            </div>
-            <br/>
-            <div class="form-row">
-                <strong>{{$bug->title}}</strong>
+                Level : <span class="{{strtolower($bug.severity)%>"><%=@bug.severity%></span>
             </div>
             <br/>
             <div class="form-row">
-                {{$bug->description}}
+                <strong><%=@bug.title%></strong>
+            </div>
+            <br/>
+            <div class="form-row">
+                <%=@bug.description%>
             </div>
             <br/>
             <?php
-                if(isset($bugFiles) && count($bugFiles)>0){
+                if @bugFiles and count($bugFiles)>0
 
                     $image_types= array('jpeg','jpg','gif','png', 'pdf', 'doc', 'docx');
 
                     foreach($bugFiles as $bugFile){
 
-                        $extension = pathinfo($bugFile->file_name, PATHINFO_EXTENSION);
+                        $extension = pathinfo($bugFile.file_name, PATHINFO_EXTENSION);
 
                         echo "<div class='form-row'>";
 
                         if(in_array($extension, $image_types))
-                            echo "<a href='$root/public/uploads/$bugFile->saved_file_name' target='_blank'><img class='bug-image' src='$root/public/uploads/$bugFile->saved_file_name'/></a>";
+                            echo "<a href='$root/public/uploads/$bugFile.saved_file_name' target='_blank'><img class='bug-image' src='$root/public/uploads/$bugFile.saved_file_name'/></a>";
                         else
-                            echo "<a href='$root/download-bug/$bug->id'>$bugFile->file_name</a>";
+                            echo "<a href='$root/download-bug/$bug.id'>$bugFile.file_name</a>";
 
                         echo "</div>";
                     }
-                }
+                end
             ?>
 
             <br/>
             <div class="form-row">
-                <form action="<%=$root%>/save-bug-comment" id="form-comment" method="post" target="ifr" enctype="multipart/form-data" onsubmit="return checkComment()">
+                <form action="<%=@root%>/save-bug-comment" id="form-comment" method="post" target="ifr" enctype="multipart/form-data" onsubmit="return checkComment()">
                     <textarea name="comment" rows="5" cols="40" placeholder="Add your comment"></textarea>
 
                     <br/><br/>

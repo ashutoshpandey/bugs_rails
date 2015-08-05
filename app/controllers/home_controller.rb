@@ -1,12 +1,15 @@
 class HomeController < ActionController::Base
-	layout 'standard'
-	before_filter :initialize
+	before_filter :initFilter
 
-	def initialize
+
+#	layout 'standard'
+
+	def initFilter
 		@root = '/'
 	end
 
 	def home()
+			render layout: "standard"
 	end
 
 end

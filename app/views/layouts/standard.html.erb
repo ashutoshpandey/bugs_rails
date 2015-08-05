@@ -5,10 +5,13 @@
   <meta http-equiv="Content-Type" content="text/html;.
 charset=iso-8859-1" />
   <meta http-equiv="Content-Language" content="en-us" />
+
   <title>YOGASMOGA: Bug Tracking</title>
-  <%= stylesheet_link_tag "style" %>
+
+  <%= yield :javascript %>
+
 </head>
 <body>
-    <%= yield -%>
+    <%= yield %>
 </body>
 </html>
