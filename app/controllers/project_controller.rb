@@ -1,14 +1,16 @@
 class ProjectController < ActionController::Base
 
-    before_filter :initialize
+    layout "standard"
 
-    def initialize
-        @root = '/'
+    before_filter :initFilter
+
+    def initFilter
+        @root = 'http://0.0.0.0:3000'
     end
 
     def createProject()
 
-        userId = Session::get('userId')
+        userId = session[:userId]
         if !userId
             redirect_to '/'
         end
@@ -16,13 +18,13 @@ class ProjectController < ActionController::Base
 
     def saveProject()
 
-        userId = Session::get('userId')
+        userId = session[:userId]
         if !userId
             render :json => {:message => 'not logged'}
         end    
 
-        name = Input::get('name')
-        project = Project::where('name', '=', name).where('status', '=', 'active').first()
+        name = params[:name]
+        project = Project.find_by :name => name, status => 'active'
 
         if project
             render :json => {:message => 'duplicate'}
@@ -30,9 +32,9 @@ class ProjectController < ActionController::Base
             project = new Project()
 
             project.name = name
-            project.description = Input::get('description')
+            project.description = params[:description]
             project.status = 'active'
-            project.created_by = Session::get('userId')
+            project.created_by = session[:userId]
 
             project.save()
 
@@ -65,20 +67,20 @@ class ProjectController < ActionController::Base
 
         if project
 
-            name = Input::get('name')
-            description = Input::get('description')
-            status = Input::get('status')
+            name = params[:name]
+            description = params[:description]
+            status = params[:status]
 
             if name
-                project.name = Input::get('name')
+                project.name = params[:name]
             end     
 
             if description
-                project.description = Input::get('description')
+                project.description = params[:description]
             end
 
             if(isset(status))
-                project.status = Input::get('status')
+                project.status = params[:status]
             end
 
             project.save()
@@ -101,7 +103,7 @@ class ProjectController < ActionController::Base
 
                 project.save()
 
-                Bug::where('project_id', '=', id).update(array('status' => 'removed'))
+                #Bug::where('project_id', '=', id).update(array('status' => 'removed])
 
                 render :json => {:message => 'done'}
             
@@ -116,28 +118,30 @@ class ProjectController < ActionController::Base
 
     def listProjects()
 
-        userId = Session::get('userId')
+        userId = session[:userId]
         if !userId
             redirect_to '/'
         end
 
-        @projects = Project::where('status','=','active').get()
+        @projects = Project::where('status = ?','active')
+
+        render :list
     end
 
     #***************** json methods *****************/
     def dataListProjects()
 
-        userId = Session::get('userId')
+        userId = session[:userId]
         if !userId
             render :json => {:message => 'not logged'}
         end
 
-        projects = Project::where('status','=','active').get()
+        projects = Project::where('status = ?', 'active')
 
-        if projects and count(projects)>0
+        if projects and projects.count>0
             render :json => {:found => true, :projects => projects, :message => 'logged'}
         else
-            render :json => {:found => false}
+            render :json => {:found => false, :message => 'empty'}
         end
     end
 end

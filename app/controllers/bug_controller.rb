@@ -111,7 +111,7 @@ class BugController < ActionController::Base
 
         id = params[:id]
 
-        bug = Bug::find(id)
+        bug = Bug.find(id)
 
         if bug
 

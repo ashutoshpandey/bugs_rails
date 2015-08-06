@@ -8,6 +8,12 @@ charset=iso-8859-1" />
 
   <title>YOGASMOGA: Bug Tracking</title>
 
+  <%= stylesheet_link_tag "common.css" %>
+  <%= stylesheet_link_tag "theme/transdmin.css" %>
+  <%= yield :css %>
+
+  <%= javascript_include_tag "jquery-1.10.2.js" %>
+  <%= javascript_include_tag "common.js" %>
   <%= yield :javascript %>
 
 </head>

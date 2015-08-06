@@ -1,12 +1,14 @@
-class UserController < ActionController.Base
+class UserController < ActionController::Base
 
-    before_filter :initialize
+    before_filter :initFilter
 
-    def initialize
-        @root = '/'
+    layout 'standard'
+
+    def initFilter
+        @root = 'http://0.0.0.0:3000'
     end
 
-    def user_section()
+    def userSection()
 
         userId = session[:userId]
         if !userId
@@ -160,8 +162,10 @@ class UserController < ActionController.Base
 
         userId = session[:userId]
         if !userId
-            render :json => {:message => 'not logged'}
+            redirect_to '/'
         end
+
+        render 'list'
     end
 
     def removeUser(userId)
@@ -193,7 +197,7 @@ class UserController < ActionController.Base
             render :json => {:message => 'not logged'}
         end
 
-        users = User.where('status = ?', 'active').get()
+        users = User.where('status = ?', 'active')
 
         if users
             render :json => {:found => true, :users => users, :message => 'logged'}

@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>
-        Administrator Section
-    </title>
+<% content_for :css do %>
+<% end %>
 
-  <%= stylesheet_link_tag "application" %>
+<% content_for :javascript do %>
+    <%= javascript_include_tag "users/list.js" %>
+<% end %>
 
-  <%= javascript_include_tag "application" %>
-
-</head>
-<body>
 <div>
 
     <div id="wrapper" class="main-container">
@@ -20,7 +13,7 @@
 
         <div class="header">
             <div>
-                <a href="<%=root%>/create-user">Create user</a>
+                <a href="<%=@root%>/create-user">Create user</a>
             </div>
 
             <br/>
@@ -34,5 +27,3 @@
 </div>
 
 <%= render 'includes/footer' %>
-</body>
-</html>

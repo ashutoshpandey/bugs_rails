@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>
-        Administrator Section
-    </title>
+<% content_for :css do %>
+    <%= stylesheet_link_tag "theme/transdmin.css" %>
+<% end %>
 
-  <%= stylesheet_link_tag "application" %>
+<% content_for :javascript do %>
+    <%= javascript_include_tag "users/user-section.js" %>
+<% end %>
 
-  <%= javascript_include_tag "application" %>
 
-</head>
-<body>
 <div>
 
     <div id="wrapper" class="main-container">
@@ -22,12 +17,12 @@
             <tr>
                 <td style="width: 150px; line-height: 30px;">Running projects</td>
                 <td style="width:50px">:</td>
-                <td><%=runningProjects%></td>
+                <td><%=@runningProjects%></td>
             </tr>
             <tr>
                 <td style="width: 150px; line-height: 30px">Closed projects</td>
                 <td style="width:50px">:</td>
-                <td><%=closedProjects%></td>
+                <td><%=@closedProjects%></td>
             </tr>
             <tr>
                 <td style="width: 150px; line-height: 30px" colspan="3"><hr/></td>
@@ -35,35 +30,33 @@
             <tr>
                 <td style="width: 150px; line-height: 30px">Current bugs count</td>
                 <td style="width:50px">:</td>
-                <td><%=currentBugs%></td>
+                <td><%=@currentBugs%></td>
             </tr>
             <tr>
                 <td style="width: 150px; line-height: 30px">Fixed bugs count</td>
                 <td style="width:50px">:</td>
-                <td><%=fixedBugs%></td>
+                <td><%=@fixedBugs%></td>
             </tr>
             <tr>
                 <td style="width: 150px; line-height: 30px">Unresolved bugs</td>
                 <td style="width:50px">:</td>
-                <td><%=unresolvedBugs%></td>
+                <td><%=@unresolvedBugs%></td>
             </tr>
         </table>
 
-        <?php
-            if(isset($userBugs) && count($userBugs)>0){
+        <%
+            if @userBugs && @userBugs.count>0
 
-                echo "<br/><br/><b>Bugs you are assigned on</b><br/><br/>";
+                print("<br/><br/><b>Bugs you are assigned on</b><br/><br/>")
 
-                $i = 0;
-                foreach($userBugs as $userBug){
+                @i = 0;
+                @userBugs.each do |userBug|
                     ++$i;
-                    echo "$i. <a href='$root/bug-detail/$userBug->id'>" . $userBug->bug->title . "</a><br/><br/>";
-                }
-            }
-        ?>
+                    print(@i + ". <a href='" + @root + "/bug-detail/" + @userBug.id + "'>" + @userBug.bug.title + "</a><br/><br/>")
+                end
+            end
+        %>
     </div>
 </div>
 
 <%= render 'includes/footer' %>
-</body>
-</html>

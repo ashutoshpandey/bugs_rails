@@ -1,5 +1,9 @@
+<% content_for :css do %>
+    <%= stylesheet_link_tag "theme/transdmin.css" %>
+<% end %>
+
 <% content_for :javascript do %>
-    <script type="text/javascript" src="public/js/jquery-1.10.2.js"></script>
+    <%= javascript_include_tag "login.js" %>
 <% end %>
 
 <div>

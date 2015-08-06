@@ -2,14 +2,13 @@ class HomeController < ActionController::Base
 	before_filter :initFilter
 
 
-#	layout 'standard'
+	layout 'standard'
 
 	def initFilter
-		@root = '/'
+		@root = 'http://0.0.0.0:3000'
 	end
 
 	def home()
-			render layout: "standard"
 	end
 
 end

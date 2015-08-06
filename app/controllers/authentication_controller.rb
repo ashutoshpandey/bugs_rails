@@ -4,16 +4,16 @@ class AuthenticationController < ActionController::Base
         email = params[:email]
         password = params[:password]
 
-        user = User.first :conditions => { :email => email, :password => password }
+        user = User.find_by :email => email, :password => password
 
         if user
             session[:userId] = user.id
             session[:userType] = user.user_type
             session[:name] = user.name
 
-            return "correct"
+            render :json => {'message' => 'correct'}
         else
-            return "invalid"
+            render :json => {'message' => 'invalid'}
         end
     end    
     
