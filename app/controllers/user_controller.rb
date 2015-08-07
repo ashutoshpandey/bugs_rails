@@ -6,6 +6,7 @@ class UserController < ActionController::Base
 
     def initFilter
         @root = 'http://0.0.0.0:3000'
+        @name = session[:name]
     end
 
     def userSection()
@@ -22,6 +23,8 @@ class UserController < ActionController::Base
         @unresolvedBugs = Bug.where('status = ?', 'unresolved').count
 
         @userBugs = BugUser.where('user_id = ? and status = ?', userId, 'active')
+
+        render 'user_section'
     end
 
     def createUser()
@@ -67,12 +70,12 @@ class UserController < ActionController::Base
             redirect_to '/'
         end
 
-        userId = Session.get('userId')
+        userId = session[:userId]
 
         if userId
             @user = User.find(userId)
 
-            if user
+            if @user
 
             else
                 redirect_to '/'
@@ -103,7 +106,7 @@ class UserController < ActionController::Base
                 user.email = email
                 user.name = params[:name]
                 user.password = params[:password]
-                user.user_type = params[:user_type]
+                user.user_type = '';
 
                 user.save()
 
@@ -147,12 +150,12 @@ class UserController < ActionController::Base
         if user
             user.name = params[:name]
             user.password = params[:password]
-            user.user_type = params[:user_type]
+            user.user_type = ''
 
             user.save()
 
             render :json => {:message => 'Profile updated successfully'}
-        
+
         else
             render :json => {:message => 'Invalid user'}
         end
@@ -183,7 +186,7 @@ class UserController < ActionController::Base
             else
                 render :json => {:message => 'invalid'}
             end
-        
+
         else
             render :json => {:message => 'invalid'}
         end

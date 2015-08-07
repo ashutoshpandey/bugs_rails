@@ -1,9 +1,11 @@
 class BugController < ActionController::Base
 
-    before_filter :initialize
+    before_filter :initFilter
 
-    def initialize
-        @root = '/'
+    layout "standard"
+
+    def initFilter
+        @root = 'http://0.0.0.0:3000'
         @name = session[:name]
     end
 

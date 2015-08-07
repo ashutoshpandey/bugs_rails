@@ -25,14 +25,15 @@ function updateProfile(){
         url: root + 'update-profile',
         data: data,
         type: 'post',
+        dataType: 'json',
         success: function(result){
 
-            if(result.indexOf('not logged')>-1) {
+            if(result!=undefined && result.message!=undefined && result.message.indexOf('not logged')>-1) {
                 window.location.replace = root;
                 return;
             }
 
-            $(".message").html(result);
+            $(".message").html(result.message);
         }
     })
 }

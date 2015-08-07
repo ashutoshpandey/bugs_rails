@@ -32,8 +32,10 @@ Rails.application.config.assets.precompile += %w( projects/create.js )
 Rails.application.config.assets.precompile += %w( projects/edit.js )
 Rails.application.config.assets.precompile += %w( projects/list.js )
 
-Rails.application.config.assets.precompile += %w( common.css )
 Rails.application.config.assets.precompile += %w( theme/transdmin.css )
+Rails.application.config.assets.precompile += %w( jquery.dataTables.css )
+
+Rails.application.config.assets.precompile += %w( common.css )
 Rails.application.config.assets.precompile += %w( login.css )
 
 Rails.application.config.assets.precompile += %w( bugs/create.css )
@@ -47,5 +49,3 @@ Rails.application.config.assets.precompile += %w( projects/list.css )
 
 Rails.application.config.assets.precompile += %w( users/user-section.css )
 
-
-Rails.application.config.assets.precompile += %w( projects/list )

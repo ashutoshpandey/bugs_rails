@@ -24,9 +24,10 @@ function createUser(){
         url: root + 'save-user',
         data: data,
         type: 'post',
+        dataType: 'json',
         success: function(result){
 
-            if(result.indexOf('not logged')>-1) {
+            if(result!=undefined && result.message!=undefined && result.message.indexOf('not logged')>-1) {
                 window.location.replace(root);
                 return;
             }

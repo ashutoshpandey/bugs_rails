@@ -6,6 +6,7 @@ class ProjectController < ActionController::Base
 
     def initFilter
         @root = 'http://0.0.0.0:3000'
+        @name = session[:name]
     end
 
     def createProject()
@@ -24,12 +25,12 @@ class ProjectController < ActionController::Base
         end    
 
         name = params[:name]
-        project = Project.find_by :name => name, status => 'active'
+        project = Project.find_by :name => name, :status => 'active'
 
         if project
             render :json => {:message => 'duplicate'}
         else 
-            project = new Project()
+            project = Project.new
 
             project.name = name
             project.description = params[:description]

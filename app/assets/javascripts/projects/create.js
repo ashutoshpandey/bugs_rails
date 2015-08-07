@@ -23,18 +23,21 @@ function createProject(){
         url: root + 'save-project',
         data: data,
         type: 'post',
+        dataType: 'json',
         success: function(result){
 
-            if(result.indexOf('not logged')>-1) {
-                window.location.replace(root);
-                return;
-            }
+            if(result!=undefined && result.message!=undefined ) {
+                if (result.message.indexOf('not logged') > -1) {
+                    window.location.replace(root);
+                    return;
+                }
 
-            if(result.indexOf('duplicate')>-1)
-                $(".message").html('Project title is duplicate');
-            else if(result.indexOf('done')>-1){
-                $("input[type='text'], textarea").val('');
-                $(".message").html('Project created successfully');
+                if (result.message.indexOf('duplicate') > -1)
+                    $(".message").html('Project title is duplicate');
+                else if (result.message.indexOf('done') > -1) {
+                    $("input[type='text'], textarea").val('');
+                    $(".message").html('Project created successfully');
+                }
             }
         }
     });

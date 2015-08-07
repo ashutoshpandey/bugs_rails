@@ -1,8 +1,10 @@
 <% content_for :css do %>
+    <%= stylesheet_link_tag "jquery.dataTables" %>
 <% end %>
 
 <% content_for :javascript do %>
-    <%= javascript_include_tag "users/list.js" %>
+    <%= javascript_include_tag "jquery.dataTables.min" %>
+    <%= javascript_include_tag "users/list" %>
 <% end %>
 
 <div>

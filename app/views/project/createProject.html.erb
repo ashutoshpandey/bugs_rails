@@ -2,7 +2,7 @@
 <% end %>
 
 <% content_for :javascript do %>
-    <%= javascript_include_tag "project/create.js" %>
+    <%= javascript_include_tag "projects/create.js" %>
 <% end %>
 
 <div>
@@ -12,7 +12,7 @@
         <%= render 'includes/header' %>
 
         <div style="margin-bottom: 20px;">
-            <a href="{{$root}}/list-projects">Project list</a>
+            <a href="<%=@root%>/list-projects">Project list</a>
 
             <br/><br/>
             <h1 class="form-header">Create a new project</h1>
@@ -47,5 +47,3 @@
 </div>
 
 <%= render 'includes/footer' %>
-</body>
-</html>
