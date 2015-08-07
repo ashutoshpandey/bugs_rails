@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>
-        Administrator Section
-    </title>
+<% content_for :css do %>
+    <%= stylesheet_link_tag "theme/transdmin.css" %>
+    <%= stylesheet_link_tag "bugs/detail.css" %>
+    <%= stylesheet_link_tag "bugs/list.css" %>
+<% end %>
 
-  <%= stylesheet_link_tag "application" %>
+<% content_for :javascript do %>
+    <%= javascript_include_tag "jquery.simplemodal.js" %>
+    <%= javascript_include_tag "bugs/detail.js" %>
+<% end %>
 
-  <%= javascript_include_tag "application" %>
-
-</head>
-<body>
 <div>
 
     <div id="wrapper" class="main-container">
@@ -30,10 +27,10 @@
             </div>
 
             <div class="form-row">
-                Posted by : <%=@bug.user.name%>
+                Posted by :
             </div>
             <div class="form-row">
-                Level : <span class="{{strtolower($bug.severity)%>"><%=@bug.severity%></span>
+                Level : <span class="<%=@bug.severity.downcase%>"><%=@bug.severity%></span>
             </div>
             <br/>
             <div class="form-row">
@@ -44,26 +41,18 @@
                 <%=@bug.description%>
             </div>
             <br/>
-            <?php
-                if @bugFiles and count($bugFiles)>0
+            <%
+                if @bugFiles and @bugFiles.count>0
 
-                    $image_types= array('jpeg','jpg','gif','png', 'pdf', 'doc', 'docx');
-
-                    foreach($bugFiles as $bugFile){
-
-                        $extension = pathinfo($bugFile.file_name, PATHINFO_EXTENSION);
-
-                        echo "<div class='form-row'>";
-
-                        if(in_array($extension, $image_types))
-                            echo "<a href='$root/public/uploads/$bugFile.saved_file_name' target='_blank'><img class='bug-image' src='$root/public/uploads/$bugFile.saved_file_name'/></a>";
-                        else
-                            echo "<a href='$root/download-bug/$bug.id'>$bugFile.file_name</a>";
-
-                        echo "</div>";
-                    }
+                    @bugFiles.each do |bugFile|
+            %>
+                        <div class='form-row'>";
+                            <a href='<%=@root%>/download-bug/<%=@bug.id%>'><%=@bugFile.file_name%></a>
+                        </div>
+            <%
+                    end
                 end
-            ?>
+            %>
 
             <br/>
             <div class="form-row">
@@ -94,5 +83,3 @@
 </div>
 
 <%= render 'includes/footer' %>
-</body>
-</html>

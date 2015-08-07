@@ -51,7 +51,7 @@
 
                 i = 0;
                 @userBugs.each do |userBug|
-                    ++i;
+                    i=i+1
         %>
                     <%=i%>. <a href='<%=@root%>/bug-detail/<%=userBug.id%>'><%=userBug.bug.title%></a><br/><br/>
         <%

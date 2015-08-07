@@ -2,6 +2,6 @@ class Bug < ActiveRecord::Base
 
     self.table_name = 'bugss'
 
-    has_many :BugFiles
-    belongs_to :User
+    has_many :bugFiles
+    belongs_to :user
 end

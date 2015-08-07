@@ -22,7 +22,7 @@ class UserController < ActionController::Base
         @fixedBugs = Bug.where('status = ?', 'fixed').count
         @unresolvedBugs = Bug.where('status = ?', 'unresolved').count
 
-        @userBugs = BugUser.where('user_id = ? and status = ?', userId, 'active')
+        @userBugs = BugUser.where('user_id = ? and status = ?', userId, 'active').includes(:bug)
 
         render 'user_section'
     end

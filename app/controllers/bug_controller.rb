@@ -234,9 +234,9 @@ class BugController < ActionController::Base
         render :json => {'message' => 'done'}
     end
 
-    def bugDetail()
+    def detail()
 
-        bugId = params[:bugId]
+        bugId = params[:id]
 
         userId = session[:userId]
         if !userId
@@ -245,26 +245,22 @@ class BugController < ActionController::Base
 
         if bugId
 
-            projectId = session[:currentProject]
-
-            if projectId
-
                 @bug = Bug.find(bugId)
-                @project = Project.find(projectId)
 
-                if @bug and @project
-                    session[:currentBugId] = bugId
+                if @bug
+                    @project = Project.find(@bug.project_id)
 
-                    @bugFiles = BugFile.where('bug_id = ?', bugId)
+                    if @bug and @project
+                        session[:currentBugId] = bugId
 
+                        @bugFiles = BugFile.where('bug_id = ?', bugId)
+
+                    else
+                        redirect_to '/'
+                    end
                 else
                     redirect_to '/'
                 end
-            
-            else
-                redirect_to '/'
-            end
-        
         else
             redirect_to '/'
         end
@@ -331,7 +327,7 @@ class BugController < ActionController::Base
         if bugId
             comments = BugComment.where('bug_id = ?', bugId)
 
-            if comments and count(comments)>0
+            if comments and comments.count>0
                 render :json => {:found => true, :comments => comments, :message => 'logged'}
             else
                 render :json => {:found => false, :message => 'empty'}

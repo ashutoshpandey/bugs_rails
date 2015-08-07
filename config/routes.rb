@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   post '/update-bug' => 'bug#update'
   get '/list-bugs/:id' => 'bug#list'
   post '/save-bug-comment' => 'bug#saveBugComment'
-  get '/bug-detail/:id' => 'bug#bugDetail'
+  get '/bug-detail/:id' => 'bug#detail'
   get '/download-bug' => 'bug#downloadBug'
   post '/change-bug-status' => 'bug#changeBugStatus'
 
