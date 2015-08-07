@@ -49,10 +49,12 @@
 
                 print("<br/><br/><b>Bugs you are assigned on</b><br/><br/>")
 
-                @i = 0;
+                i = 0;
                 @userBugs.each do |userBug|
-                    ++$i;
-                    print(@i + ". <a href='" + @root + "/bug-detail/" + @userBug.id + "'>" + @userBug.bug.title + "</a><br/><br/>")
+                    ++i;
+        %>
+                    <%=i%>. <a href='<%=@root%>/bug-detail/<%=userBug.id%>'><%=userBug.bug.title%></a><br/><br/>
+        <%
                 end
             end
         %>

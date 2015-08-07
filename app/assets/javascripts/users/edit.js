@@ -25,14 +25,17 @@ function updateUser(){
         url: root + 'update-user',
         data: data,
         type: 'post',
+        dataType: 'json',
         success: function(result){
 
-            if(result.indexOf('not logged')>-1) {
-                window.location.replace = root;
-                return;
-            }
+            if(result!=undefined && result.message!=undefined) {
+                if (result.message.indexOf('not logged') > -1) {
+                    window.location.replace = root;
+                    return;
+                }
 
-            $(".message").html(result);
+                $(".message").html(result.message);
+            }
         }
     })
 }

@@ -9,7 +9,7 @@ class BugController < ActionController::Base
         @name = session[:name]
     end
 
-    def createBug()
+    def create()
 
         userId = session[:userId]
         if !userId
@@ -19,20 +19,20 @@ class BugController < ActionController::Base
         @projectId = session[:currentProject]
 
         if @projectId
-            @users = User.all
+            @users = User.where('status = ?', 'active')
         else
             redirect_to '/'
         end
     end
 
-    def saveBug()
+    def save()
 
         userId = session[:userId]
         if !userId
             render :json => {:message => 'not logged'}
         end
 
-        bug = new Bug()
+        bug = Bug.new
 
         bug.title = params[:title]
         bug.description = params[:description]
@@ -43,9 +43,9 @@ class BugController < ActionController::Base
 
         bug.save()
 
-        files = Input::file('file')
+        files = params[:file]
         if files
-            fileCount = count(files)
+            fileCount = files.count
         else
             fileCount = 0
         end
@@ -53,21 +53,24 @@ class BugController < ActionController::Base
         users = params[:users]
 
         if users
-            userCount = count(users)
+            userCount = users.count
         else
             userCount = 0
         end
 
         if fileCount>0
             files.each do |file|
-                destinationPath = 'public/uploads'
 
-                savedFileName = date('Ymdhis')
+                time = Time.new
+                savedFileName = time.strftime("%Y%m%d%H%M%S")
 
-                filename = file.getClientOriginalName()
-                file.move(destinationPath, savedFileName)
+                filename = file.original_filename
 
-                bugFile = new BugFile()
+                File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
+                    file.write(file.read)
+                end
+
+                bugFile = BugFile.new
 
                 bugFile.bug_id = bug.id
                 bugFile.file_name = filename
@@ -81,7 +84,7 @@ class BugController < ActionController::Base
         if userCount>0
 
             users.each do |userId|
-                bugUser = new BugUser()
+                bugUser = BugUser.new
 
                 bugUser.bug_id = bug.id
                 bugUser.user_id = userId
@@ -94,7 +97,7 @@ class BugController < ActionController::Base
         render :json => {:message => 'done'}
     end
 
-    def editBug(id)
+    def edit(id)
 
         userId = session[:userId]
         if(!isset(userId))
@@ -104,7 +107,7 @@ class BugController < ActionController::Base
         @bug = Bug.find(id)
     end
 
-    def updateBug()
+    def update()
 
         userId = session[:userId]
         if !userId
@@ -172,7 +175,9 @@ class BugController < ActionController::Base
         end
     end
 
-    def listBugs(projectId)
+    def list()
+
+        projectId = params[:id]
 
         userId = session[:userId]
         if !userId
@@ -229,7 +234,9 @@ class BugController < ActionController::Base
         render :json => {'message' => 'done'}
     end
 
-    def bugDetail(bugId)
+    def bugDetail()
+
+        bugId = params[:bugId]
 
         userId = session[:userId]
         if !userId
@@ -298,16 +305,16 @@ class BugController < ActionController::Base
         bugType = params[:bug_type]
 
         if projectId
-            bugs = Bug.where('where project_id = ? and status = ?', projectId, bugType);
+            bugs = Bug.where('project_id = ? and status = ?', projectId, bugType);
 
             if bugs and bugs.count >0
-                return :json => {:found => true, :bugs => bugs, :message => 'found'}
+                render :json => {:found => true, :bugs => bugs, :message => 'found'}
             else
-                return :json => {:found => false, :message => 'empty'}
+                render :json => {:found => false, :message => 'empty'}
             end
         
         else
-            return :json => {:found => false, :message => 'invalid'}
+            render :json => {:found => false, :message => 'invalid'}
         end
     end
     

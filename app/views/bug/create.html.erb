@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>
-        Administrator Section
-    </title>
+<% content_for :css do %>
+    <%= stylesheet_link_tag "theme/transdmin.css" %>
+<% end %>
 
-  <%= stylesheet_link_tag "application" %>
+<% content_for :javascript do %>
+    <%= javascript_include_tag "bugs/create.js" %>
+<% end %>
 
-  <%= javascript_include_tag "application" %>
-
-</head>
-<body>
 <div>
 
     <div id="wrapper" class="main-container">
@@ -51,18 +45,20 @@
                     </select>
                 </div>
 
-                <?php if(isset($users) && count($users)>0){?>
+                <% if @users and @users.count>0 %>
                 <div class="form-label">Assign to</div>
                 <div class="form-row">
                     <select name="users[]" multiple="multiple" style="min-height: 50px; max-width: 300px">
-                        <?php
-                            foreach($users as $user){
-                                echo "<option value='" . $user->id . "'>" . $user->name . "</option>";
-                            }
-                        ?>
+                        <%
+                           @users.each do |user|
+                        %>
+                            <option value='<%=user.id.to_s%>'><%=user.name%></option>")
+                        <%
+                          end
+                        %>
                     </select>
                 </div>
-                <?php } ?>
+                <% end %>
 
                 <br/>
 
@@ -86,5 +82,3 @@
 </div>
 
 <%= render 'includes/footer' %>
-</body>
-</html>

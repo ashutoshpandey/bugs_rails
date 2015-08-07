@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>
-        Administrator Section
-    </title>
+<% content_for :css do %>
+    <%= stylesheet_link_tag "theme/transdmin.css" %>
+    <%= stylesheet_link_tag "jquery.dataTables.css" %>
+    <%= stylesheet_link_tag "bugs/list.css" %>
+<% end %>
 
-  <%= stylesheet_link_tag "application" %>
+<% content_for :javascript do %>
+    <%= javascript_include_tag "jquery.simplemodal.js" %>
+    <%= javascript_include_tag "jquery.dataTables.min.js" %>
+    <%= javascript_include_tag "bugs/list.js" %>
+<% end %>
 
-  <%= javascript_include_tag "application" %>
-
-</head>
-<body>
 <div>
 
     <div id="wrapper" class="main-container">
@@ -39,6 +37,3 @@
 
 <%= render 'includes/footer' %>
 <%= render 'includes/popup' %>
-
-</body>
-</html>

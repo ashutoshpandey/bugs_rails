@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>
-        Administrator Section
-    </title>
+<% content_for :css do %>
+    <%= stylesheet_link_tag "theme/transdmin.css" %>
+<% end %>
 
-  <%= stylesheet_link_tag "application" %>
+<% content_for :javascript do %>
+    <%= javascript_include_tag "bugs/edit.js" %>
+<% end %>
 
-  <%= javascript_include_tag "application" %>
-
-</head>
-<body>
 <div>
 
     <div id="wrapper" class="ys-adminform">
@@ -49,5 +43,3 @@
 </div>
 
 <%= render 'includes/footer' %>
-</body>
-</html>

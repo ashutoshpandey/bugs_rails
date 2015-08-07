@@ -20,7 +20,6 @@ $(function(){
 
         var result = $(this).contents().find('body').html();
 
-
         if(result.indexOf('not logged')>-1) {
             window.location.replace(root);
             return;

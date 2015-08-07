@@ -43,7 +43,9 @@ class ProjectController < ActionController::Base
         end
     end
 
-    def editProject(id)
+    def edit()
+
+        id = params[:id]
 
         userId = session[:userId]
         if !userId
@@ -55,7 +57,7 @@ class ProjectController < ActionController::Base
         session[:currentProjectId] = id
     end
 
-    def updateProject()
+    def update()
 
         userId = session[:userId]
         if !userId
@@ -117,16 +119,14 @@ class ProjectController < ActionController::Base
         end
     end
 
-    def listProjects()
+    def list()
 
         userId = session[:userId]
         if !userId
             redirect_to '/'
         end
 
-        @projects = Project::where('status = ?','active')
-
-        render :list
+        @projects = Project.where('status = ?','active')
     end
 
     #***************** json methods *****************/

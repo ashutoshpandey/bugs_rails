@@ -27,7 +27,7 @@ class UserController < ActionController::Base
         render 'user_section'
     end
 
-    def createUser()
+    def create()
 
         userId = session[:userId]
         if !userId
@@ -35,7 +35,7 @@ class UserController < ActionController::Base
         end
     end
 
-    def saveUser()
+    def save()
 
         userId = session[:userId]
         if !userId
@@ -117,7 +117,9 @@ class UserController < ActionController::Base
         end
     end
 
-    def editUser(userId)
+    def edit()
+
+        userId = params[:id]
 
         if !userId
             redirect_to '/'
@@ -128,7 +130,7 @@ class UserController < ActionController::Base
 
             session[:current_edit_user] = userId
 
-            if user
+            if @user
 
             else
                 redirect_to '/'
@@ -138,7 +140,7 @@ class UserController < ActionController::Base
         end
     end
 
-    def updateUser()
+    def update()
 
         userId = session[:current_edit_user]
         if !userId
@@ -150,7 +152,7 @@ class UserController < ActionController::Base
         if user
             user.name = params[:name]
             user.password = params[:password]
-            user.user_type = ''
+            user.user_type = params[:user_type]
 
             user.save()
 
@@ -161,7 +163,7 @@ class UserController < ActionController::Base
         end
     end
 
-    def listUsers()
+    def list()
 
         userId = session[:userId]
         if !userId
@@ -171,7 +173,7 @@ class UserController < ActionController::Base
         render 'list'
     end
 
-    def removeUser(userId)
+    def remove(userId)
 
         if userId
 
